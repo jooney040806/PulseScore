@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>PulseScore | NBA Tracker</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>🏀 PulseScore</h1>
+            <p>Your NBA scoreboard</p>
+        </header>
+
+        <section class="search">
+            <form action="/" method="GET">
+                <label for="date">Choose a date</label>
+                <input type="date"
+                       id="date"
+                       name="date"
+                       value="{{ selected_date }}"
+                       required>
+                <button type="submit">Get Scores</button>
+            </form>
+        </section>
+
+        <h2>NBA Games — {{ selected_date }}</h2>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+
+        {% elif games %}
+
+            <div class="games">
+
+                {% for game in games %}
+
+                    <div class="card">
+
+                        <p class="status">
+                            {{ game.status }}
+                        </p>
+
+                        <div class="team">
+                            <span>
+                                {{ game.visitor_team.full_name }}
+                            </span>
+                            <strong>
+                                {{ game.visitor_team_score }}
+                            </strong>
+                        </div>
+
+                        <div class="team">
+                            <span>
+                                {{ game.home_team.full_name }}
+                            </span>
+                            <strong>
+                                {{ game.home_team_score }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+            <p>No games found for this date.</p>
+        {% endif %}
+
+        <footer>
+            NBA data via BALLDONTLIE
+        </footer>
+
+    </div>
+
+</body>
+</html>
